@@ -34,6 +34,10 @@ have_func("rb_gc_heap_info")
 have_func("rb_gc_malloc_allocations")
 have_func("rb_gc_malloc_allocated_size")
 
+# Alternative ruby 1.9 hooks
+have_func("malloc_allocations")
+have_func("malloc_allocated_size")
+
 def add_define(name, value = nil)
   if value
     $defs.push("-D#{name}=#{value}")

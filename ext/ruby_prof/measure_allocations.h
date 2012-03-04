@@ -28,6 +28,7 @@
 
 #if defined(HAVE_RB_OS_ALLOCATED_OBJECTS)
 #define MEASURE_ALLOCATIONS 3
+#define TOGGLE_GC_STATS 1
 
 static prof_measure_t
 measure_allocations()
@@ -80,4 +81,30 @@ prof_measure_allocations(VALUE self)
     return ULONG2NUM(rb_os_allocated_objects());
 #endif
 }
+
+#elif defined(HAVE_MALLOC_ALLOCATIONS)
+#define MEASURE_ALLOCATIONS 3
+
+static prof_measure_t
+measure_allocations()
+{
+    return malloc_allocations();
+}
+
+static double
+convert_allocations(prof_measure_t c)
+{
+    return  c;
+}
+
+static VALUE
+prof_measure_allocations(VALUE self)
+{
+#if defined(HAVE_LONG_LONG)
+    return ULL2NUM(rb_os_allocated_objects());
+#else
+    return ULONG2NUM(rb_os_allocated_objects());
+#endif
+}
+
 #endif
